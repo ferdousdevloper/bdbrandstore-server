@@ -22,20 +22,21 @@ const webHooks = async (req, res) => {
     const session = event.data.object;
 
     const newOrder = new Order({
-      user: session.metadata.userId,
-      shippingDetails: {
-        fullName: session.metadata.fullName,
-        address: session.metadata.address,
-        phone: session.metadata.phone,
-      },
-      paymentMethod: "Online",
-      paymentDetails: {
-        paymentId: session.payment_intent,
-        payment_status: session.payment_status,
-      },
-      status: "Confirmed",
-      total_amount: session.amount_total / 100,
-    });
+  user: session.metadata.userId,
+  cartItems: JSON.parse(session.metadata.cartItems),  // must send from checkout
+  shippingDetails: {
+    fullName: session.metadata.fullName,
+    address: session.metadata.address,
+    phone: session.metadata.phone,
+  },
+  paymentMethod: "Online",
+  paymentDetails: {
+    paymentId: session.payment_intent,
+    payment_status: session.payment_status,
+  },
+  status: "Confirmed",
+  total_amount: session.amount_total / 100,
+});
 
     await newOrder.save();
 

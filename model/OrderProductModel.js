@@ -12,26 +12,43 @@ const orderItemSchema = new mongoose.Schema({
   quantity: Number,
 });
 
-const orderSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const orderSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    cartItems: [orderItemSchema],
+
+    shippingDetails: {
+      fullName: String,
+      address: String,
+      phone: String,
+    },
+
+    paymentMethod: String,
+
+    paymentDetails: {
+      paymentId: String,
+      payment_status: {
+        type: String,
+        default: "pending",
+      },
+    },
+
+    // 🔥 UPDATED STATUS FIELD
+    status: {
+      type: String,
+      enum: ["pending", "confirmed", "delivered", "canceled"],
+      default: "pending",
+    },
+
+    total_amount: Number,
   },
-
-  cartItems: [orderItemSchema],  // ✅ structured array
-
-  shippingDetails: {
-    fullName: String,
-    address: String,
-    phone: String,
-  },
-
-  paymentMethod: String,
-  status: String,
-  totalAmount: Number,
-
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 const OrderProduct = mongoose.model("OrderProduct", orderSchema);
 

@@ -14,7 +14,6 @@ const createCODOrder = async (req, res) => {
       return res.status(400).json({ success: false, message: "Cart is empty" });
     }
 
-    // ✅ Transform cart data properly
     const formattedItems = cartItems.map((item) => ({
       productId: item.productId._id,
       productName: item.productId.productName,
@@ -23,7 +22,7 @@ const createCODOrder = async (req, res) => {
       quantity: item.quantity,
     }));
 
-    const totalAmount = formattedItems.reduce(
+    const total_amount = formattedItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
@@ -33,8 +32,12 @@ const createCODOrder = async (req, res) => {
       cartItems: formattedItems,
       shippingDetails,
       paymentMethod: "COD",
-      status: "Pending",
-      totalAmount,
+      paymentDetails: {
+        paymentId: null,
+        payment_status: "Pending",
+      },
+      status: "Confirmed",   // ✅ Same as Online after success
+      total_amount: total_amount,
     });
 
     await cartModel.deleteMany({ userId });

@@ -35,6 +35,8 @@ const GetOderDetails = require('../controller/order/GetOrderDetails')
 const CodOrderController = require('../controller/order/CodOrderController')
 const createCODOrder = require('../controller/order/CodOrderController')
 
+const updateOrderStatus = require("../controller/order/updateOrderStatus");
+const deleteOrder = require("../controller/order/deleteOrder");
 
 
 
@@ -84,5 +86,8 @@ router.get("/get-order-details", authToken, GetOderDetails)
 // COD
 router.post("/cod-order", authToken, createCODOrder);
 
+// update order status
+router.put("/update-order-status", authToken, updateOrderStatus);
+router.delete("/delete-order/:orderId", authToken, deleteOrder);
 
 module.exports = router

@@ -1,28 +1,31 @@
-const orderModel = require("../../model/OrderProductModel");
+const Order = require("../../model/OrderProductModel");
 
-const GetOderDetails = async(req, res)=>{
+const GetOrderDetails = async (req, res) => {
   try {
 
-    const userId = req?.userId
-    console.log("UserId : ", userId)
-    const orderData = await orderModel.find({userId : userId}).sort({createdAt : -1})
+    let orders;
 
-     console.log("Ordered Data : ",orderData)
+    if (req.role === "ADMIN") {
+      orders = await Order.find();   // 👈 populate বাদ
+    } else {
+      orders = await Order.find({ userId: req.userId });
+    }
 
-    res.status(200).json({
-      data : orderData,
-      message: "Ordered Product Details",
-      error: false,
+    return res.json({
       success: true,
+      error: false,
+      message: "Ordered Product Details",
+      data: orders,
     });
-    
+
   } catch (error) {
-    res.status(400).json({
-      message: error.message || error,
-      error: true,
+    console.log("ORDER ERROR:", error);   // 👈 এটা add করো
+    return res.status(500).json({
       success: false,
+      error: true,
+      message: "Something went wrong",
     });
   }
-}
+};
 
-module.exports = GetOderDetails
+module.exports = GetOrderDetails;
