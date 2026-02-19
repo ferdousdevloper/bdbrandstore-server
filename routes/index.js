@@ -32,6 +32,8 @@ const ResetPasswordController = require('../controller/user/ResetPasswordControl
 const PaymentController = require('../controller/payment/PaymentController')
 const webHooks = require('../controller/order/WebHook')
 const GetOderDetails = require('../controller/order/GetOrderDetails')
+const CodOrderController = require('../controller/order/CodOrderController')
+const createCODOrder = require('../controller/order/CodOrderController')
 
 
 
@@ -78,6 +80,9 @@ router.post("/reset-password",ResetPasswordController)
 router.post("/checkout",authToken,PaymentController)
 router.post("/webhook",webHooks)  // /api/webhook
 router.get("/get-order-details", authToken, GetOderDetails)
+
+// COD
+router.post("/cod-order", authToken, createCODOrder);
 
 
 module.exports = router
