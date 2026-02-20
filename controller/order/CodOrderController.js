@@ -36,7 +36,7 @@ const createCODOrder = async (req, res) => {
         paymentId: null,
         payment_status: "Pending",
       },
-      status: "Confirmed",   // ✅ Same as Online after success
+      status: "confirmed",   // ✅ Same as Online after success
       total_amount: total_amount,
     });
 

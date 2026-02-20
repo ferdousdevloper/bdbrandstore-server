@@ -5,10 +5,15 @@ const GetOrderDetails = async (req, res) => {
 
     let orders;
 
+    // 🔥 ADMIN হলে সব order
     if (req.role === "ADMIN") {
-      orders = await Order.find();   // 👈 populate বাদ
-    } else {
-      orders = await Order.find({ userId: req.userId });
+      orders = await Order.find()
+        .sort({ createdAt: -1 }); // ✅ new to old
+    } 
+    // 🔥 USER হলে শুধু নিজের order
+    else {
+      orders = await Order.find({ user: req.userId }) // ⚠ userId না, user
+        .sort({ createdAt: -1 }); // ✅ new to old
     }
 
     return res.json({
@@ -19,7 +24,7 @@ const GetOrderDetails = async (req, res) => {
     });
 
   } catch (error) {
-    console.log("ORDER ERROR:", error);   // 👈 এটা add করো
+    console.log("ORDER ERROR:", error);
     return res.status(500).json({
       success: false,
       error: true,

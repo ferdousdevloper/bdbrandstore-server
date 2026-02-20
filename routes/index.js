@@ -80,7 +80,7 @@ router.post("/reset-password",ResetPasswordController)
 
 //Payment & Order
 router.post("/checkout",authToken,PaymentController)
-router.post("/webhook",webHooks)  // /api/webhook
+//router.post("/webhook",webHooks)  // /api/webhook
 router.get("/get-order-details", authToken, GetOderDetails)
 
 // COD
