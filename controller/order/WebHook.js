@@ -39,6 +39,7 @@ const webHooks = async (req, res) => {
         paymentDetails: {
           paymentId: session.payment_intent,
           payment_status: session.payment_status || "paid",
+          stripeSessionId: session.id,
         },
         status: "confirmed",
         total_amount: session.amount_total / 100,

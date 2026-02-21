@@ -31,12 +31,14 @@ const VerifyOtpController = require('../controller/OTP/VerifyOtpController')
 const ResetPasswordController = require('../controller/user/ResetPasswordController')
 const PaymentController = require('../controller/payment/PaymentController')
 const webHooks = require('../controller/order/WebHook')
+const ConfirmStripeOrder = require('../controller/order/ConfirmStripeOrder')
 const GetOderDetails = require('../controller/order/GetOrderDetails')
 const CodOrderController = require('../controller/order/CodOrderController')
 const createCODOrder = require('../controller/order/CodOrderController')
 
 const updateOrderStatus = require("../controller/order/updateOrderStatus");
 const deleteOrder = require("../controller/order/deleteOrder");
+const DeleteProductController = require('../controller/product/deleteProductController');
 
 
 
@@ -60,6 +62,8 @@ router.get("/get-single-product-details/:id",GetSingleProductController)
 router.get("/search-product", SearchProductController)
 router.post("/fiter-product", FilterProductController)
 
+router.delete("/delete-product/:id", authToken, DeleteProductController);
+
 // user add to cart
 router.post("/add-to-cart",authToken,CartController)
 router.get("/count-cart-product/:id",authToken,CountCartProductController)
@@ -80,6 +84,7 @@ router.post("/reset-password",ResetPasswordController)
 
 //Payment & Order
 router.post("/checkout",authToken,PaymentController)
+router.post("/confirm-stripe-order", authToken, ConfirmStripeOrder)
 //router.post("/webhook",webHooks)  // /api/webhook
 router.get("/get-order-details", authToken, GetOderDetails)
 

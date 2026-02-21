@@ -36,6 +36,7 @@ const orderSchema = new mongoose.Schema(
         type: String,
         default: "pending",
       },
+      stripeSessionId: String, // for idempotency (avoid duplicate on success-page + webhook)
     },
 
     // 🔥 UPDATED STATUS FIELD
