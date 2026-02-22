@@ -39,6 +39,7 @@ const createCODOrder = require('../controller/order/CodOrderController')
 const updateOrderStatus = require("../controller/order/updateOrderStatus");
 const deleteOrder = require("../controller/order/deleteOrder");
 const DeleteProductController = require('../controller/product/deleteProductController');
+const getStatisticsController = require('../controller/statistics/getStatisticsController')
 
 
 
@@ -94,5 +95,8 @@ router.post("/cod-order", authToken, createCODOrder);
 // update order status
 router.put("/update-order-status", authToken, updateOrderStatus);
 router.delete("/delete-order/:orderId", authToken, deleteOrder);
+
+//statistics
+router.get("/get-statistics", authToken, getStatisticsController)
 
 module.exports = router
