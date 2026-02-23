@@ -4,7 +4,7 @@ const cartModel = require("../../model/Cart");
 const createCODOrder = async (req, res) => {
   try {
     const userId = req.userId;
-    const { cartItems, shippingDetails } = req.body;
+    const { cartItems, shippingDetails, shippingFee } = req.body;
 
     if (!userId) {
       return res.status(400).json({ success: false, message: "User not found" });
@@ -27,6 +27,11 @@ const createCODOrder = async (req, res) => {
       0
     );
 
+    const subTotal = formattedItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+
     const newOrder = await OrderProduct.create({
       user: userId,
       cartItems: formattedItems,
@@ -37,7 +42,9 @@ const createCODOrder = async (req, res) => {
         payment_status: "Pending",
       },
       status: "confirmed",   // ✅ Same as Online after success
-      total_amount: total_amount,
+      subTotal: subTotal,           // আলাদা সেভ হচ্ছে
+      shippingFee: shippingFee,     // আলাদা সেভ হচ্ছে
+      total_amount: subTotal + shippingFee, // গ্র্যান্ড টোটাল
     });
 
     await cartModel.deleteMany({ userId });
